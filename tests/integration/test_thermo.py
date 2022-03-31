@@ -165,9 +165,15 @@ def main(vs, writeFlag=False, name=None):
                            lhs_fct=problem_assemble_lhs, probs=prob, seq_fp=seq_fp,
                            PGD_nmax=PGD_nmax)
 
-    pgd_prob.max_fp_it = 50
+    # possible solver paramters (if not given then default values will be used!)
     pgd_prob.stop_fp = 'norm'
+    pgd_prob.max_fp_it = 50
+    # pgd_prob.tol_fp_it = 1e-6
+    # pgd_prob.tol_abs = 1e-7
+
     pgd_prob.solve_PGD(_problem='linear') # solve normal
+    print(pgd_prob.simulation_info)
+    print('PGD Amplitude', pgd_prob.amplitude)
 
     pgd_s = pgd_prob.return_PGD()  # as PGD class instance
     # pgd_s.print_info()
@@ -230,4 +236,8 @@ class PGDproblem(unittest.TestCase):
         self.assertAlmostEqual(u_pgd(self.x), compareValue, places=1)
 
 if __name__ == '__main__':
+    # import logging
+    #
+    # logging.basicConfig(level=logging.DEBUG)
+
     unittest.main()
